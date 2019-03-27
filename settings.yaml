@@ -1,0 +1,23 @@
+# Elasticube Data folder Path
+#ELASTICUBE_DATA_FOLDER: 'T:\ElastiCubeData\'
+ELASTICUBE_DATA_FOLDER:
+
+# Path to PSM.exe
+#PSM_PATH: "C:\\Program Files\\Sisense\\Prism\\Psm.exe"
+PSM_PATH:
+
+# Sisense server address
+#SERVER_ADDRESS: "localhost"
+SERVER_ADDRESS:
+
+# Logging Settings
+
+LOG_FILE_PATH: "C:\\ProgramData\\Sisense\\PrismServer\\ElastiCubeData_Cleaner\\logs\\"
+FILE_LOG_LEVEL: 'DEBUG'
+CONSOLE_LOG_LEVEL: 'DEBUG'
+
+# Archive setting
+
+BACKUP_ELASTICUBE_BEFORE_DELETE: false
+
+BACKUP_FOLDER_PATH: "C:\\temp"
