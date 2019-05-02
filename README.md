@@ -1,5 +1,5 @@
 # EC Data Folder Cleaner
-![Custom badge](https://img.shields.io/endpoint.svg?label=download&url=https%3A%2F%2Fgithub.com%2Fdeddyhogeg%2Fec-data-folder-cleaner%2Freleases%2Fdownload%2Fv1.0%2Felasticube_data_cleaner.exe)
+![Custom badge](https://img.shields.io/badge/dowload-test-blue.svg)(https://api.github.com/repos/deddyhogeg/ec-data-folder-cleaner/releases/latest)
 
 
 **Usage:**
