@@ -1,6 +1,5 @@
 # EC Data Folder Cleaner
-[![Download](https://img.shields.io/badge/dynamic/json.svg?label=download&url=https://github.com/deddyhogeg/ec-data-folder-cleaner/releases/download/v1.0/elasticube_data_cleaner.exe)](https://www.rarst.net/download/laps)
-
+![Custom badge](https://img.shields.io/endpoint.svg?label=download&url=https%3A%2F%2Fgithub.com%2Fdeddyhogeg%2Fec-data-folder-cleaner%2Freleases%2Fdownload%2Fv1.0%2Felasticube_data_cleaner.exe)
 
 
 **Usage:**
