@@ -1,5 +1,5 @@
 # EC Data Folder Cleaner
-![Custom badge](https://img.shields.io/badge/dowload-test-blue.svg)(https://api.github.com/repos/deddyhogeg/ec-data-folder-cleaner/releases/latest)
+[![Custom badge](https://img.shields.io/badge/dowload-ec--data--folder--cleaner%20v1.0-blue.svg)](https://api.github.com/repos/deddyhogeg/ec-data-folder-cleaner/releases/latest)
 
 
 **Usage:**
