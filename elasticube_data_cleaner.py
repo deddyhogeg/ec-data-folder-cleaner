@@ -46,6 +46,7 @@ ELASTICUBE_DEFAULT_DATA_FOLDER = "C:\ProgramData\Sisense\PrismServer\ElastiCubeD
 ELASTICUBE_DATA_FOLDERS = []
 PSM_DEFAULT_PATH = "C:\\Program Files\\Sisense\\Prism\\Psm.exe"
 DEFAULT_SERVER_ADDRESS = "localhost"
+DEFAULT_DELETE_ALTERNATIVE = False
 ACTION = "list"
 DEFAULT_EC_SERVICE_NAME = "Sisense.ECMS"
 EC_SERVICE_NAME = DEFAULT_EC_SERVICE_NAME
@@ -176,6 +177,9 @@ def get_args():
                         default=[ELASTICUBE_DEFAULT_DATA_FOLDER])
     parser.add_argument('--ec_service_name', help="Name of the elasticube service service.", nargs='+',
                         default=DEFAULT_EC_SERVICE_NAME)
+
+    parser.add_argument('--delete_alternative', help="Delete alternative foplder",
+                        action='store_true')
     # parser.add_argument('--ec_data_folder', help="The ElasricubeDataFolders", nargs='+',
     #                         default=ELASTICUBE_DEFAULT_DATA_FOLDER, type=is_dir)
 
@@ -205,8 +209,13 @@ async def clean_elasticube_data_folder(ec_name):
 
         for folder in ec_folders:
 
+            if DELETE_ALTERNATIVE == False:
+                if folder.find("_Alternative") != -1:
+
+                    folder = folder[slice(0, folder.find("_Alternative"))]
 
             if folder.lower() != ec_info['DBFarmDirectory'].lower():
+
 
                 folders_list_str = folders_list_str + folder + " \n\t"
                 delete_tasks.append(asyncio.create_task(delete_folder(folder)))
@@ -267,6 +276,7 @@ async def main():
         global ELASTICUBE_DATA_FOLDERS
         global ACTION
         global EC_SERVICE_NAME
+        global DELETE_ALTERNATIVE
 
         args = get_args()
         logger.debug("Args: " + str(args))
@@ -276,6 +286,8 @@ async def main():
         ACTION = args.action
 
         EC_SERVICE_NAME = args.ec_service_name
+
+        DELETE_ALTERNATIVE = args.delete_alternative
 
         if not is_ec_service_running():
 
