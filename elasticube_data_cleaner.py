@@ -129,7 +129,10 @@ async def get_ec_data_folders(ec_id, ec_db_folder):
 
                             for entry2 in it2:
                                 if entry2.name == ec_id:
-                                    paths.append(entry.path)
+
+                                    ret = is_path_in_list(entry.path, paths)
+                                    if not ret:
+                                        paths.append(entry.path)
 
     return paths
 
@@ -183,12 +186,14 @@ def get_args():
 async def delete_folder(folder):
     if ACTION == 'delete':
         shutil.rmtree(folder)
-    return " Folder \"" + folder + "\" deleted."
+        return " Folder \"" + folder + "\" deleted."
+    else:
+        return ""
 
 
 async def clean_elasticube_data_folder(ec_name):
     ec_info = await get_active_elasticube_info(ec_name)
-    logger.info("Cleaning up data folder for elasticube: " + ec_info['Title'])
+    logger.info("Scanning data folder for elasticube: " + ec_info['Title'])
     ec_folders = await get_ec_data_folders(ec_info['ID'], ec_info['DBFarmDirectory'])
 
     delete_tasks = []
@@ -196,22 +201,38 @@ async def clean_elasticube_data_folder(ec_name):
     if ec_info['IsProcessing'] == 'False' and ec_info['IsRestarting'] == 'False' \
             and ec_info['IsLocked'] == 'False' and ec_info['IsStopping'] == 'False' and ec_info['IsInvalid'] == 'False':
 
+        folders_list_str = "\t"
+
         for folder in ec_folders:
 
-            if (folder.lower() != ec_info['DBFarmDirectory'].lower()):
+
+            if folder.lower() != ec_info['DBFarmDirectory'].lower():
+
+                folders_list_str = folders_list_str + folder + " \n\t"
                 delete_tasks.append(asyncio.create_task(delete_folder(folder)))
 
         if len(delete_tasks) > 0:
 
-            logger.info("\tFound " + str(len(delete_tasks)) + " folders to delete.")
-            logger.info('Start:' + time.strftime('%X'))
+            folders_str = ""
+
+            if len(delete_tasks) == 1:
+                folders_str = "folder"
+            else:
+                folders_str = "folders"
+
+            logger.info("\tFound " + str(len(delete_tasks)) + " " + folders_str + " to delete.")
+            logger.info(folders_list_str)
+            # logger.info('Start:' + time.strftime('%X'))
+
             for res in asyncio.as_completed(delete_tasks):
                 compl = await res
-                logger.info(f'res: {compl} completed at {time.strftime("%X")}')
 
-            logger.info('End:' + time.strftime('%X'))
+                if compl != '':
+                    logger.info(f'res: {compl} completed at {time.strftime("%X")}')
+
+                    # logger.info('End:' + time.strftime('%X'))
         else:
-            logger.info("\tNo folders to delete.")
+            logger.info("\tNo folders to delete.\n")
         # print(f'Both tasks done: {all((t.done(), t2.done()))}')
 
 
@@ -219,6 +240,15 @@ async def clean_elasticube_data_folder(ec_name):
     elif ec_info['IsProcessing']:
 
         logger.info(ec_info['Title'] + " is being built. Skipping folder cleanup.")
+
+def is_path_in_list(path, path_list):
+
+    for i in path_list:
+
+        if i.lower() == path.lower():
+            return True
+
+    return False
 
 def is_ec_service_running():
 
