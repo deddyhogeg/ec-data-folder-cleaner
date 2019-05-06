@@ -178,7 +178,7 @@ def get_args():
     parser.add_argument('--ec_service_name', help="Name of the elasticube service service.", nargs='+',
                         default=DEFAULT_EC_SERVICE_NAME)
 
-    parser.add_argument('--delete_alternative', help="Delete alternative foplder",
+    parser.add_argument('--delete_alternative', help="Delete alternative folder",
                         action='store_true')
     # parser.add_argument('--ec_data_folder', help="The ElasricubeDataFolders", nargs='+',
     #                         default=ELASTICUBE_DEFAULT_DATA_FOLDER, type=is_dir)
@@ -209,10 +209,8 @@ async def clean_elasticube_data_folder(ec_name):
 
         for folder in ec_folders:
 
-            if DELETE_ALTERNATIVE == False:
-                if folder.find("_Alternative") != -1:
-
-                    folder = folder[slice(0, folder.find("_Alternative"))]
+            if DELETE_ALTERNATIVE == False and folder.find("_Alternative") != -1 :
+                continue
 
             if folder.lower() != ec_info['DBFarmDirectory'].lower():
 
